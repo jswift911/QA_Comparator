@@ -2,7 +2,7 @@ package ru.netology.comparable;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import java.util.Arrays;
+
 public class AviaSoulsTest {
 
     Ticket ticket1 = new Ticket("Москва", "Берлин", 1000, 10, 11);
@@ -39,10 +39,10 @@ public class AviaSoulsTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    // 4) Тест, на метод поиска search с сортировкой в порядке возрастания цены
+    // 4) Тест, на метод поиска search с сортировкой в порядке возрастания цены (несколько билетов)
 
     @Test
-    public void shouldCorrectSearch() {
+    public void shouldCorrectSearchManyTickets() {
         AviaSouls manager = new AviaSouls();
         manager.add(ticket1);
         manager.add(ticket2);
@@ -54,7 +54,35 @@ public class AviaSoulsTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    // 5) Тест, когда время перелета билета меньше, чем у второго
+    // 5) Тест, на метод поиска search с сортировкой в порядке возрастания цены (1 билет)
+
+    @Test
+    public void shouldCorrectSearchOneTicket() {
+        AviaSouls manager = new AviaSouls();
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        Ticket[] expected = {ticket1};
+        Ticket[] actual = manager.search("Москва", "Берлин");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    // 6) Тест, на метод поиска search с сортировкой в порядке возрастания цены (нет билетов)
+
+    @Test
+    public void shouldCorrectSearchWithoutTickets() {
+        AviaSouls manager = new AviaSouls();
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+        manager.add(ticket5);
+        Ticket[] expected = {};
+        Ticket[] actual = manager.search("Москва", "Мадрид");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    // 7) Тест, когда время перелета билета меньше, чем у второго
 
     @Test
     public void shouldFlyTimeLower() {
@@ -67,7 +95,7 @@ public class AviaSoulsTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    // 6) Тест, когда время перелета билета больше, чем у второго
+    // 8) Тест, когда время перелета билета больше, чем у второго
 
     @Test
     public void shouldFlyTimeHigher() {
@@ -80,7 +108,7 @@ public class AviaSoulsTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    // 7) Тест, когда время перелета одинаково
+    // 9) Тест, когда время перелета одинаково
 
     @Test
     public void shouldFlyTimeEquals() {
@@ -93,10 +121,10 @@ public class AviaSoulsTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    // 8) Тест, на метод поиска searchAndSortBy с сортировкой по времени перелета
+    // 10) Тест, на метод поиска searchAndSortBy с сортировкой по времени перелета (несколько билетов)
 
     @Test
-    public void shouldCorrectSearchAndSortBy() {
+    public void shouldCorrectSearchAndSortByManyTickets() {
         AviaSouls manager = new AviaSouls();
         TicketTimeComparator ticketTimeComparator = new TicketTimeComparator();
         manager.add(ticket1);
@@ -106,6 +134,38 @@ public class AviaSoulsTest {
         manager.add(ticket5); // 1 час
         Ticket[] expected = {ticket5, ticket3, ticket4};
         Ticket[] actual = manager.searchAndSortBy("Москва", "Лондон", ticketTimeComparator);
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    // 11) Тест, на метод поиска searchAndSortBy с сортировкой по времени перелета (1 билет)
+
+    @Test
+    public void shouldCorrectSearchAndSortByOneTicket() {
+        AviaSouls manager = new AviaSouls();
+        TicketTimeComparator ticketTimeComparator = new TicketTimeComparator();
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+        manager.add(ticket5);
+        Ticket[] expected = {ticket2};
+        Ticket[] actual = manager.searchAndSortBy("Москва", "Париж", ticketTimeComparator);
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    // 12) Тест, на метод поиска searchAndSortBy с сортировкой по времени перелета (нет билетов)
+
+    @Test
+    public void shouldCorrectSearchAndSortByWithoutTickets() {
+        AviaSouls manager = new AviaSouls();
+        TicketTimeComparator ticketTimeComparator = new TicketTimeComparator();
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+        manager.add(ticket5);
+        Ticket[] expected = {};
+        Ticket[] actual = manager.searchAndSortBy("Москва", "Мадрид", ticketTimeComparator);
         Assertions.assertArrayEquals(expected, actual);
     }
 
